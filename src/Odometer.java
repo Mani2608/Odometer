@@ -4,19 +4,19 @@ public class Odometer {
     Odometer(int n){
         this.noOfDigits = n;
     }
-    int findSmallest(){
+    String findSmallest(){
         String temp = "";
         for(int i = 1;i<=noOfDigits;i++){
             temp +=i;
         }
-        return Integer.parseInt(temp);
+        return temp;
     }
-    int findLargest(){
+    String findLargest(int n){
         String temp="";
-        for(int i=9;i>9-noOfDigits;i--) {
+        for(int i=9;i>9-n;i--) {
             temp = i + temp;
         }
-        return Integer.parseInt(temp);
+        return temp;
     }
     int findNext(int currentReading){
         //String temp = Integer.toString(currentReading);
@@ -40,12 +40,16 @@ public class Odometer {
         return Integer.parseInt(temp.reverse().toString());
     }
     String findPrevious(String reading) {
+    	if(reading.equals(findSmallest()))
+    		return findLargest(reading.length());
 		StringBuilder rev_reading = new StringBuilder(reading).reverse();
 		int strict_incr_size = strictIncrSize(rev_reading, 0);
 		rev_reading.setCharAt(strict_incr_size-1, (char) (rev_reading.charAt(strict_incr_size-1)-1));
+		rev_reading.replace(0, strict_incr_size-1, new StringBuilder(findLargest(strict_incr_size-1)).reverse().toString());
 		return rev_reading.reverse().toString();
 		
 	}
+    
 	int strictIncrSize(StringBuilder rev_reading, int index) {
 		if(index>=rev_reading.length()-1 || rev_reading.charAt(index)!=rev_reading.charAt(index+1)+1) {
 			return index+1;
